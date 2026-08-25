@@ -1,0 +1,998 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Ostrum | The Spot Market for Information</title>
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&amp;display=swap" rel="stylesheet">
+    
+    
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Newsreader', 'serif'],
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            cream: '#F4F3F0',
+                            dark: '#111111',
+                            vermillion: '#E63312',
+                            border: 'rgba(17,17,17,0.12)',
+                            muted: 'rgba(17,17,17,0.62)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F4F3F0;
+            color: #111111;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F4F3F0; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(17,17,17,0.12); 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #111111; 
+        }
+    
+        #neuro-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-vermillion selection:text-brand-cream">
+
+    
+    <nav class="fixed w-full top-0 z-50 px-8 py-6 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+        <div class="font-sans text-xs uppercase tracking-[0.2em] font-medium pointer-events-auto">Project Ostrum</div>
+        <div class="font-sans text-[10px] uppercase tracking-[0.2em] border border-white/30 px-3 py-1.5 pointer-events-auto backdrop-blur-sm">Beta v0.1</div>
+    </nav>
+
+    
+    <header class="min-h-screen grid grid-cols-1 lg:grid-cols-2 relative border-b border-brand-border">
+        
+        
+        <div class="flex flex-col justify-center px-8 lg:px-24 py-32 lg:py-0 relative z-10 lg:border-r border-brand-border bg-brand-cream">
+            <h1 class="font-serif text-[3.5rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.05] tracking-tight max-w-2xl mb-12 text-brand-dark">
+                All data is a signal.<br>
+                Signals find each other.<br>
+                The network learns.
+            </h1>
+
+            <a href="https://app.ostrum.ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-brand-dark text-brand-cream px-8 py-4 w-fit font-sans text-xs font-semibold tracking-[0.15em] uppercase hover:bg-brand-vermillion transition-colors">
+                Access the Network
+            </a>
+
+            <div class="absolute bottom-8 lg:bottom-12 left-8 lg:left-24 space-y-1 font-sans text-[9px] uppercase tracking-[0.25em] text-brand-muted font-medium">
+                <p>Project Ostrum /</p>
+                <p>Live Network — V.01</p>
+            </div>
+        </div>
+
+        
+        <div class="relative min-h-[50vh] lg:min-h-screen bg-brand-cream overflow-hidden border-t lg:border-t-0 border-brand-border">
+            <canvas id="neuro-canvas"></canvas>
+        </div>
+    </header>
+
+    <main>
+        
+        <section class="px-8 py-24 md:py-40 border-b border-brand-border bg-brand-cream">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center gap-4 mb-12">
+                    <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                    <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">The Thesis</div>
+                </div>
+                
+                <h2 class="font-serif text-4xl md:text-6xl leading-[1.1] tracking-tight mb-12 text-brand-dark">
+                    The Spot Market for Information
+                </h2>
+                
+                <div class="grid md:grid-cols-12 gap-8 md:gap-16">
+                    <div class="md:col-span-8 space-y-8 font-serif text-xl md:text-2xl leading-relaxed text-brand-dark/80">
+                        <p>
+                            Prediction markets trade derivatives of what people know. Ostrum lets information itself be priced and transacted — starting where the asymmetry is steepest and closest to home: <span class="text-brand-dark font-medium">market-making, exchange listing, and fundraising deals</span>.
+                        </p>
+                        <p>
+                            Information is an asset, and it deserves a spot market. While prediction markets have financialized information only to the degree of a directional yes/no answer, Project Ostrum lets participants transact in the underlying information directly.
+                        </p>
+                        <p>
+                            Contribute what you know, and it purchases access to what others know, at an exchange rate set by the value and scarcity of the information itself.
+                        </p>
+                    </div>
+                    <div class="md:col-span-4 border-t border-brand-border pt-6 md:border-t-0 md:pt-0">
+                        <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Initial Markets</div>
+                        <ul class="space-y-4 font-sans text-sm text-brand-dark">
+                            <li class="flex items-start gap-3">
+                                <span class="text-brand-muted mt-0.5">01</span>
+                                <span>Crypto Deal-Terms Intelligence</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-brand-muted mt-0.5">02</span>
+                                <span>Market-Making Agreements</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-brand-muted mt-0.5">03</span>
+                                <span>Exchange Listings</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-brand-muted mt-0.5">04</span>
+                                <span>Funding Rounds</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="px-8 py-24 md:py-40 border-b border-brand-border bg-brand-cream">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col lg:flex-row gap-16 lg:gap-32">
+                    <div class="lg:w-1/3">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                            <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">Mechanism</div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl leading-[1.1] tracking-tight mb-8 text-brand-dark">
+                            How it Works
+                        </h2>
+                        <p class="font-sans text-base leading-relaxed text-brand-muted">
+                            Ostrum operates on a strict <span class="text-brand-dark">contribute-to-unlock model</span>. Value is exchanged directly for value, empowering builders against entrenched, lopsided power dynamics.
+                        </p>
+                    </div>
+                    
+                    <div class="lg:w-2/3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+                            
+                            <div class="relative group">
+                                <div class="absolute -left-4 top-0 w-[2px] h-0 bg-brand-vermillion transition-all duration-500 group-hover:h-full"></div>
+                                <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 01</div>
+                                <h3 class="font-serif text-2xl mb-4 text-brand-dark">Contribute</h3>
+                                <p class="font-sans text-sm leading-relaxed text-brand-muted">
+                                    Users submit valuable information—starting with the terms of deals they have signed or been quoted.
+                                </p>
+                            </div>
+                            
+                            
+                            <div class="relative group">
+                                <div class="absolute -left-4 top-0 w-[2px] h-0 bg-brand-vermillion transition-all duration-500 group-hover:h-full"></div>
+                                <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 02</div>
+                                <h3 class="font-serif text-2xl mb-4 text-brand-dark">Valuation</h3>
+                                <p class="font-sans text-sm leading-relaxed text-brand-muted">
+                                    Contributions are valued according to the stakes involved, the dispersion of terms in that segment, and the scarcity of the data point.
+                                </p>
+                            </div>
+                            
+                            
+                            <div class="relative group">
+                                <div class="absolute -left-4 top-0 w-[2px] h-0 bg-brand-vermillion transition-all duration-500 group-hover:h-full"></div>
+                                <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 03</div>
+                                <h3 class="font-serif text-2xl mb-4 text-brand-dark">Unlock &amp; Query</h3>
+                                <p class="font-sans text-sm leading-relaxed text-brand-muted">
+                                    Contributors query the pooled dataset through a natural-language interface (e.g., asking what a typical market-making retainer includes at their project's size).
+                                </p>
+                            </div>
+                            
+                            
+                            <div class="relative group">
+                                <div class="absolute -left-4 top-0 w-[2px] h-0 bg-brand-vermillion transition-all duration-500 group-hover:h-full"></div>
+                                <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 04</div>
+                                <h3 class="font-serif text-2xl mb-4 text-brand-dark">Verification</h3>
+                                <p class="font-sans text-sm leading-relaxed text-brand-muted">
+                                    Submissions undergo a disclosed, time-limited review process assessed against public sources, internal data, and signs of manipulation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="flows" class="px-8 py-24 md:py-40 border-b border-brand-border bg-brand-cream">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="flex items-center justify-center gap-4 mb-8">
+                        <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                        <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">Token Model</div>
+                        <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                    </div>
+                    <h2 class="font-serif text-4xl md:text-5xl leading-[1.1] tracking-tight mb-8 text-brand-dark">
+                        Information Market Flows
+                    </h2>
+                    <p class="font-sans text-lg text-brand-muted leading-relaxed">
+                        Two tokens separate owning the market from using it. Ownership is fixed and patient. Consumption is earned, spent, and destroyed. Watch value move — or move it yourself.
+                    </p>
+                </div>
+
+                <div class="border border-brand-border overflow-x-auto bg-brand-cream">
+                    <svg id="flows-svg" viewBox="0 0 900 430" class="block w-full" style="min-width: 680px;" role="img" aria-label="Diagram of Ostrum token flows: staking Ownership and contributing information both earn Consumption, which is burned to query">
+                        <style>
+                            .fl-name { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; fill: #111111; }
+                            .fl-sub  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; fill: rgba(17,17,17,0.55); }
+                            .fl-verb { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.18em; fill: rgba(17,17,17,0.5); }
+                            .fl-num  { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 24px; font-weight: 400; fill: #111111; }
+                            .flow-path { stroke: #111111; stroke-opacity: 0.5; stroke-width: 1; fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; transition: stroke-opacity 0.2s, stroke-width 0.2s; }
+                            .flow-path.hot { stroke-opacity: 1; stroke-width: 1.75; }
+                            .fl-ring { fill: none; stroke: #111111; vector-effect: non-scaling-stroke; }
+                            .fl-node { cursor: pointer; outline: none; }
+                            .fl-node:focus-visible .fl-anchor { stroke: #E63312 !important; }
+                        </style>
+
+                        <!-- fibres -->
+                        <path id="flow-stake"      class="flow-path" vector-effect="non-scaling-stroke" d="M 178,122 Q 300,142 419,194"/>
+                        <path id="flow-contribute" class="flow-path" vector-effect="non-scaling-stroke" d="M 174,298 Q 300,278 419,226"/>
+                        <path id="flow-burn"       class="flow-path" vector-effect="non-scaling-stroke" d="M 491,210 Q 630,196 756,208"/>
+                        <path id="flow-answer"     class="flow-path" vector-effect="non-scaling-stroke" d="M 784,208 Q 830,204 878,198" style="stroke-opacity:0.35"/>
+
+                        <!-- flow verbs -->
+                        <text class="fl-verb" x="290" y="148" text-anchor="middle">STAKE · EMITS OVER TIME</text>
+                        <text class="fl-verb" x="290" y="304" text-anchor="middle">CONTRIBUTE · EARN</text>
+                        <text class="fl-verb" x="622" y="184" text-anchor="middle">BURN · LEARN</text>
+                        <text class="fl-sub"  x="854" y="222" text-anchor="middle">answers</text>
+
+                        <!-- Ownership: solid node inside a fixed-supply ring -->
+                        <g id="node-own" class="fl-node" role="button" tabindex="0" aria-label="Stake Ownership" data-path="flow-stake">
+                            <circle class="fl-ring" vector-effect="non-scaling-stroke" cx="150" cy="110" r="34" stroke-width="1" stroke-opacity="0.3"/>
+                            <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="150" cy="110" r="24" fill="#F4F3F0" stroke-width="1.25"/>
+                            <circle cx="150" cy="110" r="5" fill="#111111"/>
+                            <text class="fl-name" x="150" y="52" text-anchor="middle">OWNERSHIP</text>
+                            <text class="fl-sub"  x="150" y="170" text-anchor="middle">Fixed supply · staked</text>
+                        </g>
+
+                        <!-- Contribution -->
+                        <g id="node-con" class="fl-node" role="button" tabindex="0" aria-label="Contribute information" data-path="flow-contribute">
+                            <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="150" cy="310" r="18" fill="#F4F3F0" stroke-width="1.25"/>
+                            <circle cx="150" cy="310" r="4" fill="#111111"/>
+                            <text class="fl-name" x="150" y="360" text-anchor="middle">CONTRIBUTION</text>
+                            <text class="fl-sub"  x="150" y="380" text-anchor="middle">Deal terms in</text>
+                        </g>
+
+                        <!-- Consumption pool: outlined vessel with live balance -->
+                        <g id="node-pool">
+                            <circle id="pool-circle" class="fl-ring" vector-effect="non-scaling-stroke" cx="455" cy="210" r="36" fill="#F4F3F0" stroke-width="1.25"/>
+                            <text id="pool-balance" class="fl-num" x="455" y="219" text-anchor="middle">3</text>
+                            <text class="fl-name" x="455" y="140" text-anchor="middle">CONSUMPTION</text>
+                            <text class="fl-sub"  x="455" y="282" text-anchor="middle">Balance</text>
+                        </g>
+
+                        <!-- Query / burn point -->
+                        <g id="node-qry" class="fl-node" role="button" tabindex="0" aria-label="Burn Consumption to query" data-path="flow-burn">
+                            <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="768" cy="208" r="11" fill="#F4F3F0" stroke-width="1.25"/>
+                            <circle cx="768" cy="208" r="3.5" fill="#111111"/>
+                            <text class="fl-name" x="768" y="256" text-anchor="middle">QUERY</text>
+                            <text class="fl-sub"  x="768" y="276" text-anchor="middle">Burn to learn</text>
+                        </g>
+
+                        <g id="bead-layer"></g>
+                        <g id="fx-layer"></g>
+                    </svg>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mt-4 mb-16">
+                    <div id="flow-status" class="font-mono text-xs text-brand-muted" style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;">Value in motion — every flow above is live.</div>
+                    <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted">Click any node to move value</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
+                        <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Governance · Fixed supply</div>
+                        <h3 class="font-serif text-2xl mb-4 text-brand-dark">Ownership</h3>
+                        <p class="font-sans text-sm text-brand-muted leading-relaxed">
+                            The asset that owns the market. Supply is fixed at genesis. Staked, it emits a continuous stream of Consumption — holding converts to access over time.
+                        </p>
+                    </div>
+                    <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
+                        <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Utility · Earn &amp; burn</div>
+                        <h3 class="font-serif text-2xl mb-4 text-brand-dark">Consumption</h3>
+                        <p class="font-sans text-sm text-brand-muted leading-relaxed">
+                            The working token. Earned by contributing information or by staking Ownership; burned to ask questions. Every query permanently retires the Consumption it costs — burn to learn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-24 md:py-40 border-b border-brand-border bg-brand-cream">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-24">
+                    <div class="flex items-center justify-center gap-4 mb-8">
+                        <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                        <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">Architecture</div>
+                        <div class="w-8 h-[1px] bg-brand-dark/30"></div>
+                    </div>
+                    <h2 class="font-serif text-4xl md:text-5xl leading-[1.1] tracking-tight mb-8 text-brand-dark">
+                        Privacy by Architecture
+                    </h2>
+                    <p class="font-sans text-lg text-brand-muted leading-relaxed">
+                        An information market only functions if contributing doesn't mean surrendering the information's source. Ostrum is engineered so that individual exposure is structurally impossible.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
+                        <div class="w-12 h-12 flex items-center justify-center border border-brand-border mb-8 text-brand-dark group-hover:bg-brand-dark group-hover:text-brand-cream transition-colors duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-4 text-brand-dark">Coarse Bucketing</h3>
+                        <p class="font-sans text-sm text-brand-muted leading-relaxed">
+                            Exact deal values are converted to coarse buckets and ratios at submission, and raw figures are destroyed. No database of precise terms exists.
+                        </p>
+                    </div>
+                    
+                    
+                    <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
+                        <div class="w-12 h-12 flex items-center justify-center border border-brand-border mb-8 text-brand-dark group-hover:bg-brand-dark group-hover:text-brand-cream transition-colors duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-4 text-brand-dark">Aggregation Only</h3>
+                        <p class="font-sans text-sm text-brand-muted leading-relaxed">
+                            All access runs through an aggregation-only statistics layer with minimum-cohort thresholds and suppression rules. No query can return an individual deal.
+                        </p>
+                    </div>
+                    
+                    
+                    <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
+                        <div class="w-12 h-12 flex items-center justify-center border border-brand-border mb-8 text-brand-dark group-hover:bg-brand-dark group-hover:text-brand-cream transition-colors duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-2xl mb-4 text-brand-dark">Verified Contributors</h3>
+                        <p class="font-sans text-sm text-brand-muted leading-relaxed">
+                            Contributors are verified against their organization, so entities can only report on their own information, protecting the integrity of the market alongside privacy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="beta" class="px-8 py-32 md:py-48 bg-brand-dark text-brand-cream relative overflow-hidden">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <div class="flex items-center justify-center gap-4 mb-8">
+                    <div class="w-8 h-[1px] bg-brand-cream/40"></div>
+                    <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-cream/60 font-medium">Availability</div>
+                    <div class="w-8 h-[1px] bg-brand-cream/40"></div>
+                </div>
+                
+                <h2 class="font-serif text-5xl md:text-7xl leading-[1.05] tracking-tight mb-8">
+                    Join the Beta
+                </h2>
+                
+                <p class="font-serif text-xl md:text-2xl text-brand-cream/70 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Project Ostrum is available today. Projects with market-making, exchange-listing, or fundraising deal experience are invited to join as founding contributors to the first market.
+                </p>
+                
+            <a href="https://app.ostrum.ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-brand-cream text-brand-dark px-10 py-5 w-fit font-sans text-sm font-semibold tracking-[0.15em] uppercase hover:bg-brand-vermillion hover:text-brand-cream transition-colors duration-300">
+                    Access Ostrum.ai
+                </a>
+
+                <p class="mt-16 font-sans text-xs text-brand-cream/50 max-w-xl mx-auto leading-relaxed">
+                    The system will blindly rank the value of contributors and invite them to a private anonymous community to provide feedback, improve the platform, and share in its success.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    
+    <footer class="bg-brand-dark border-t border-white/10 text-brand-cream/50 py-12 px-8 font-sans text-[10px] uppercase tracking-[0.2em]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-12">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336 74" class="h-7 w-auto" role="img" aria-label="Ostrum">
+  <g transform="translate(0,-4.6) scale(0.85)">
+    <circle cx="32" cy="60" r="15" fill="#F4F3F0"/>
+    <circle cx="84" cy="27" r="7.5" fill="#F4F3F0"/>
+    <path d="M44.7,52 Q64.4,46.6 77.7,31" fill="none" stroke="#F4F3F0" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M17.5,64 Q9,66.5 3,69.5" fill="none" stroke="#F4F3F0" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="64.4" cy="43" r="4.5" fill="#E63312"/>
+  </g>
+  <g transform="translate(92,60)">
+    <path d="M28.155223880597017 -49.2179104477612Q33.63582089552239 -49.2179104477612 38.149253731343286 -47.4089552238806Q42.66268656716418 -45.6 45.940298507462686 -42.3044776119403Q49.2179104477612 -39.0089552238806 50.99104477611941 -34.42388059701493Q52.76417910447761 -29.838805970149256 52.76417910447761 -24.286567164179107Q52.76417910447761 -18.734328358208955 50.95522388059702 -14.149253731343283Q49.14626865671642 -9.564179104477612 45.832835820895525 -6.214925373134328Q42.51940298507463 -2.865671641791045 37.97014925373135 -1.0388059701492538Q33.420895522388065 0.7880597014925373 27.9044776119403 0.7880597014925373Q22.459701492537313 0.7880597014925373 17.928358208955224 -1.0208955223880598Q13.397014925373135 -2.829850746268657 10.137313432835821 -6.143283582089552Q6.877611940298507 -9.456716417910448 5.086567164179105 -14.041791044776119Q3.2955223880597018 -18.62686567164179 3.2955223880597018 -24.143283582089552Q3.2955223880597018 -29.695522388059704 5.104477611940299 -34.29850746268657Q6.913432835820896 -38.90149253731344 10.244776119402985 -42.25074626865672Q13.576119402985075 -45.6 18.12537313432836 -47.4089552238806Q22.674626865671645 -49.2179104477612 28.155223880597017 -49.2179104477612ZM28.334328358208957 -3.474626865671642Q33.3134328358209 -3.474626865671642 36.931343283582095 -5.785074626865672Q40.549253731343285 -8.095522388059702 42.50149253731344 -12.411940298507464Q44.453731343283586 -16.728358208955225 44.453731343283586 -22.853731343283584Q44.453731343283586 -29.982089552238808 42.37611940298508 -34.907462686567165Q40.29850746268657 -39.832835820895525 36.519402985074635 -42.39402985074627Q32.74029850746269 -44.95522388059702 27.72537313432836 -44.95522388059702Q22.74626865671642 -44.95522388059702 19.128358208955227 -42.66268656716419Q15.510447761194031 -40.37014925373135 13.558208955223883 -36.03582089552239Q11.605970149253732 -31.701492537313435 11.605970149253732 -25.611940298507463Q11.605970149253732 -18.519402985074628 13.701492537313435 -13.576119402985075Q15.797014925373135 -8.632835820895522 19.576119402985075 -6.053731343283582Q23.355223880597016 -3.474626865671642 28.334328358208957 -3.474626865671642Z M71.3910447761194 -32.48955223880597Q73.75522388059701 -32.48955223880597 75.67164179104478 -32.07761194029851Q77.58805970149254 -31.665671641791047 79.91641791044776 -30.66268656716418L80.48955223880597 -21.99402985074627H78.16119402985075L74.29253731343283 -30.698507462686567L77.37313432835822 -27.51044776119403Q75.83283582089553 -28.47761194029851 74.4 -28.943283582089556Q72.96716417910449 -29.4089552238806 71.46268656716418 -29.4089552238806Q68.52537313432836 -29.4089552238806 66.9313432835821 -28.29850746268657Q65.33731343283583 -27.188059701492538 65.33731343283583 -25.182089552238807Q65.33731343283583 -23.46268656716418 66.26865671641792 -22.42388059701493Q67.2 -21.385074626865674 68.93731343283582 -20.632835820895522Q70.67462686567164 -19.880597014925375 72.96716417910449 -19.092537313432835Q74.68656716417911 -18.519402985074628 76.24477611940299 -17.731343283582092Q77.80298507462686 -16.943283582089553 79.02089552238806 -15.81492537313433Q80.23880597014926 -14.686567164179106 80.93731343283582 -13.092537313432837Q81.63582089552239 -11.498507462686568 81.63582089552239 -9.24179104477612Q81.63582089552239 -5.982089552238806 80.00597014925373 -3.7432835820895525Q78.37611940298507 -1.5044776119402985 75.47462686567164 -0.3761194029850746Q72.57313432835821 0.7522388059701492 68.74029850746268 0.7522388059701492Q66.34029850746269 0.7522388059701492 64.2089552238806 0.3940298507462687Q62.07761194029851 0.03582089552238806 60.286567164179104 -0.6805970149253732L58.81791044776119 -9.743283582089553H61.18208955223881L66.12537313432836 -0.573134328358209L61.5044776119403 -3.582089552238806Q62.82985074626866 -3.008955223880597 63.886567164179105 -2.7223880597014927Q64.94328358208955 -2.4358208955223883 65.91044776119404 -2.3283582089552244Q66.87761194029851 -2.22089552238806 67.8089552238806 -2.22089552238806Q71.46268656716418 -2.22089552238806 73.4865671641791 -3.5283582089552246Q75.51044776119403 -4.835820895522389 75.51044776119403 -7.414925373134329Q75.51044776119403 -8.88358208955224 74.81194029850747 -9.832835820895523Q74.1134328358209 -10.782089552238807 72.8955223880597 -11.46268656716418Q71.6776119402985 -12.143283582089554 70.13731343283581 -12.698507462686567Q68.59701492537313 -13.253731343283583 66.9134328358209 -13.86268656716418Q64.69253731343284 -14.686567164179106 63.04477611940298 -15.868656716417911Q61.397014925373135 -17.050746268656717 60.48358208955224 -18.84179104477612Q59.570149253731344 -20.632835820895522 59.570149253731344 -23.247761194029852Q59.570149253731344 -26.220895522388062 61.092537313432835 -28.26268656716418Q62.61492537313433 -30.3044776119403 65.30149253731344 -31.397014925373135Q67.98805970149255 -32.48955223880597 71.3910447761194 -32.48955223880597Z M97.57611940298509 -9.385074626865672Q97.57611940298509 -6.985074626865672 99.06268656716419 -5.802985074626866Q100.5492537313433 -4.62089552238806 103.37910447761195 -4.62089552238806Q104.7044776119403 -4.62089552238806 106.28059701492538 -4.889552238805971Q107.85671641791046 -5.158208955223881 109.68358208955225 -5.695522388059702V-3.582089552238806Q107.31940298507463 -1.9701492537313434 105.49253731343285 -1.0208955223880598Q103.66567164179105 -0.07164179104477612 102.17910447761194 0.30447761194029854Q100.69253731343284 0.6805970149253732 99.36716417910449 0.6805970149253732Q96.71641791044777 0.6805970149253732 94.72835820895523 -0.2328358208955224Q92.7402985074627 -1.146268656716418 91.62985074626866 -3.0268656716417914Q90.51940298507463 -4.907462686567165 90.51940298507463 -7.701492537313433V-26.185074626865674L85.89850746268657 -29.122388059701493V-30.340298507462688Q86.93731343283582 -30.9134328358209 87.95820895522388 -31.558208955223883Q88.97910447761194 -32.202985074626866 89.98208955223882 -32.90149253731343Q90.98507462686568 -33.6 91.97014925373135 -34.33432835820896Q92.95522388059702 -35.06865671641791 93.90447761194031 -35.83880597014925Q94.85373134328358 -36.6089552238806 95.78507462686568 -37.397014925373135H97.57611940298509V-30.66268656716418ZM94.74626865671642 -27.54626865671642 94.78208955223882 -31.701492537313435H108.64477611940299L108.14328358208957 -27.54626865671642Z M135.11641791044778 -32.23880597014926Q137.08656716417912 -32.23880597014926 138.0179104477612 -31.2179104477612Q138.9492537313433 -30.197014925373136 138.9492537313433 -28.585074626865673Q138.9492537313433 -26.61492537313433 137.82089552238807 -25.504477611940302Q136.69253731343284 -24.39402985074627 135.044776119403 -24.39402985074627Q133.89850746268658 -24.39402985074627 132.8955223880597 -24.66268656716418Q131.89253731343285 -24.93134328358209 130.8716417910448 -25.182089552238807Q129.85074626865674 -25.432835820895523 128.66865671641793 -25.432835820895523Q127.844776119403 -25.432835820895523 126.91343283582091 -25.235820895522387Q125.98208955223882 -25.038805970149255 125.10447761194031 -24.626865671641795Q124.2268656716418 -24.21492537313433 123.43880597014926 -23.64179104477612L122.57910447761195 -25.074626865671643Q124.80000000000001 -27.008955223880598 126.62686567164181 -28.370149253731345Q128.4537313432836 -29.731343283582092 129.9761194029851 -30.57313432835821Q131.49850746268658 -31.41492537313433 132.77014925373135 -31.826865671641794Q134.04179104477612 -32.23880597014926 135.11641791044778 -32.23880597014926ZM124.58507462686568 -25.5044776119403V-3.51044776119403L130.13731343283584 -1.7194029850746269V0.0H112.29850746268657V-1.7194029850746269L117.52835820895524 -3.4388059701492537V-24.39402985074627Q117.0268656716418 -24.93134328358209 116.25671641791047 -25.41492537313433Q115.48656716417912 -25.89850746268657 114.48358208955224 -26.400000000000002Q113.48059701492538 -26.901492537313434 112.2268656716418 -27.402985074626866V-28.585074626865673L122.7223880597015 -32.48955223880597H123.72537313432836Z M152.88358208955225 -10.71044776119403Q152.88358208955225 -8.704477611940298 153.45671641791046 -7.522388059701493Q154.02985074626866 -6.340298507462687 155.4089552238806 -5.802985074626866Q156.78805970149256 -5.265671641791045 159.15223880597017 -5.265671641791045Q161.37313432835822 -5.265671641791045 163.50447761194033 -6.017910447761194Q165.63582089552241 -6.7701492537313435 166.74626865671644 -7.916417910447762L168.0 -6.376119402985075Q165.85074626865674 -4.226865671641791 164.1492537313433 -2.829850746268657Q162.44776119402985 -1.4328358208955225 160.97910447761194 -0.6447761194029852Q159.51044776119403 0.14328358208955225 158.04179104477612 0.4656716417910448Q156.5731343283582 0.7880597014925373 154.85373134328358 0.7880597014925373Q150.23283582089553 0.7880597014925373 148.02985074626866 -1.9880597014925372Q145.8268656716418 -4.764179104477612 145.8268656716418 -10.280597014925373V-27.402985074626866L140.66865671641793 -29.695522388059704V-31.558208955223883L153.31343283582092 -32.23880597014926L152.88358208955225 -27.76119402985075ZM167.03283582089554 0.6447761194029851 166.02985074626866 -6.125373134328359V-27.54626865671642L161.26567164179107 -29.731343283582092V-31.558208955223883L173.58805970149257 -32.202985074626866L173.1223880597015 -27.689552238805973V-5.946268656716418Q173.4805970149254 -5.623880597014925 174.0537313432836 -5.2298507462686565Q174.6268656716418 -4.835820895522389 175.32537313432837 -4.477611940298508Q176.02388059701494 -4.119402985074627 176.7223880597015 -3.8328358208955224Q177.42089552238807 -3.546268656716418 178.02985074626866 -3.4029850746268657V-2.1134328358208956L168.0 0.6447761194029851Z M193.64776119402987 -25.5044776119403V-3.3671641791044777L198.3402985074627 -1.7194029850746269V0.0H181.36119402985076V-1.7194029850746269L186.59104477611942 -3.4388059701492537V-24.39402985074627Q185.94626865671643 -25.11044776119403 184.72835820895523 -25.8089552238806Q183.51044776119406 -26.507462686567166 181.28955223880598 -27.402985074626866V-28.585074626865673L191.14029850746272 -32.48955223880597H192.14328358208957ZM213.85074626865674 -23.1044776119403V-3.3671641791044777L218.54328358208957 -1.7194029850746269V0.0H202.10149253731345V-1.7194029850746269L206.79402985074628 -3.3671641791044777V-21.06268656716418Q206.79402985074628 -22.92537313432836 206.05970149253733 -24.12537313432836Q205.32537313432837 -25.32537313432836 203.92835820895525 -25.916417910447763Q202.53134328358212 -26.507462686567166 200.59701492537317 -26.507462686567166Q198.3402985074627 -26.507462686567166 196.2268656716418 -25.755223880597015Q194.11343283582093 -25.002985074626867 193.03880597014927 -23.856716417910448L191.82089552238807 -25.361194029850747Q193.97014925373136 -27.47462686567164 195.6716417910448 -28.871641791044777Q197.37313432835822 -30.26865671641791 198.87761194029852 -31.038805970149255Q200.38208955223882 -31.8089552238806 201.88656716417913 -32.149253731343286Q203.39104477611943 -32.48955223880597 205.07462686567166 -32.48955223880597Q208.19104477611944 -32.48955223880597 210.12537313432838 -31.253731343283583Q212.05970149253733 -30.017910447761196 212.95522388059703 -27.9044776119403Q213.85074626865674 -25.791044776119403 213.85074626865674 -23.1044776119403ZM234.0537313432836 -21.63582089552239V-3.4388059701492537L239.35522388059704 -1.7194029850746269V0.0H222.3044776119403V-1.7194029850746269L226.99701492537315 -3.3671641791044777V-21.06268656716418Q226.99701492537315 -22.96119402985075 226.244776119403 -24.143283582089552Q225.49253731343288 -25.32537313432836 224.11343283582093 -25.916417910447763Q222.73432835820898 -26.507462686567166 220.76417910447765 -26.507462686567166Q218.50746268656718 -26.507462686567166 216.39402985074628 -25.755223880597015Q214.2805970149254 -25.002985074626867 213.20597014925374 -23.82089552238806L211.98805970149255 -25.32537313432836Q214.13731343283584 -27.47462686567164 215.83880597014928 -28.853731343283584Q217.5402985074627 -30.232835820895524 219.06268656716418 -31.02089552238806Q220.5850746268657 -31.8089552238806 222.07164179104478 -32.149253731343286Q223.5582089552239 -32.48955223880597 225.27761194029853 -32.48955223880597Q229.8985074626866 -32.48955223880597 231.9761194029851 -29.6955223880597Q234.0537313432836 -26.901492537313434 234.0537313432836 -21.63582089552239Z" fill="#F4F3F0"/>
+  </g>
+</svg>
+                <div>© 2026 Project Ostrum</div>
+                <div>The Spot Market for Information</div>
+            </div>
+            <div class="flex gap-8">
+                <span class="text-brand-cream/30">Telegram:</span>
+                <a href="https://x.com/projectostrum" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">X: @projectostrum</a>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script>
+    (function () {
+        'use strict';
+
+        // ------------------------------------------------------------------
+        // Ostrum motion study: seed -> grow -> connect -> transmit -> dissolve
+        //
+        // Rendered 1-bit (near-black on cream) into a low-resolution buffer
+        // upscaled with image-rendering: pixelated, matching the sample's
+        // crisp / slightly ragged reaction-diffusion look. A signal pulse is
+        // expressed as a travelling bead of *thickness* along a fibre — the
+        // only way to "glow" in a two-colour system.
+        // ------------------------------------------------------------------
+
+        const canvas = document.getElementById('neuro-canvas');
+        const panel = canvas.parentElement;
+        const ctx = canvas.getContext('2d');
+
+        const INK    = '#111111';  // structure: somata, fibres, growth cones
+        const SIGNAL = '#E63312';  // signal (vermilion variant)
+        const prefersReducedMotion =
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // ---- simulation-space size (low res, pixelated upscale) ----------
+        let SIM_W = 480, SIM_H = 400;
+
+        // persistent trail layer (fibres accumulate here, never cleared)
+        const trail = document.createElement('canvas');
+        const tctx = trail.getContext('2d', { willReadFrequently: true });
+
+        // ---- tunables ----------------------------------------------------
+        const N_NEURONS        = 7;
+        const SOMA_R           = 3.4;
+        const SEED_STAGGER_MS  = 480;    // soma appearances
+        const TIPS_PER_NEURON  = 5;
+        const TIP_STEP         = 0.72;   // px per frame per growth cone
+        const TIP_TURBULENCE   = 0.30;   // max heading jitter (rad)
+        const TIP_LIFE         = 760;    // steps
+        const BRANCH_P         = 0.011;
+        const MAX_TIPS         = 64;
+        const SENSE_R          = 70;     // attraction toward foreign somata
+        const CONNECT_R        = 3.4;    // synapse formation distance
+        const PAIR_SYNAPSE_CAP = 2;
+        const GLOBAL_SYN_CAP   = 26;
+        const PULSE_SPEED      = 1.9;    // px per frame along fibre
+        const MAX_PULSES       = 16;
+        const REFRACTORY_MS    = 2100;
+        const AMBIENT_FIRE_MS  = 2600;
+        const CYCLE_MS         = 52000;  // full life of one network
+        const DISSOLVE_FRAMES  = 110;
+
+        // ---- state -------------------------------------------------------
+        let neurons, tips, synapses, pulses, grid;
+        let startTime, lastAmbient, phase, dissolveFrame, frameCount;
+        const GRID_CELL = 8;
+
+        function gridKey(x, y) {
+            return ((x / GRID_CELL) | 0) + ',' + ((y / GRID_CELL) | 0);
+        }
+        function gridInsert(nid, nodeIdx, x, y) {
+            const k = gridKey(x, y);
+            (grid[k] || (grid[k] = [])).push([nid, nodeIdx]);
+        }
+        // nearest node belonging to another neuron, within CONNECT_R
+        function findForeignNode(nid, x, y) {
+            const cx = (x / GRID_CELL) | 0, cy = (y / GRID_CELL) | 0;
+            let best = null, bestD = CONNECT_R * CONNECT_R;
+            for (let gx = cx - 1; gx <= cx + 1; gx++) {
+                for (let gy = cy - 1; gy <= cy + 1; gy++) {
+                    const cell = grid[gx + ',' + gy];
+                    if (!cell) continue;
+                    for (let i = 0; i < cell.length; i++) {
+                        const [onid, oidx] = cell[i];
+                        if (onid === nid) continue;
+                        const n = neurons[onid].nodes[oidx];
+                        const dx = n.x - x, dy = n.y - y;
+                        const d = dx * dx + dy * dy;
+                        if (d < bestD) { bestD = d; best = [onid, oidx]; }
+                    }
+                }
+            }
+            return best;
+        }
+
+        function pairKey(a, b) { return a < b ? a + '-' + b : b + '-' + a; }
+        let pairCounts;
+
+        function reset() {
+            const rect = panel.getBoundingClientRect();
+            const aspect = Math.max(0.4, Math.min(2.6, rect.width / Math.max(1, rect.height)));
+            SIM_H = 400;
+            SIM_W = Math.round(SIM_H * aspect);
+            canvas.width = SIM_W;  canvas.height = SIM_H;
+            trail.width  = SIM_W;  trail.height  = SIM_H;
+            tctx.clearRect(0, 0, SIM_W, SIM_H);
+
+            neurons = [];
+            tips = [];
+            synapses = [];
+            pulses = [];
+            grid = {};
+            pairCounts = {};
+            phase = 'live';
+            dissolveFrame = 0;
+            frameCount = 0;
+            startTime = performance.now();
+            lastAmbient = startTime;
+
+            // seed somata: rejection-sampled for spacing
+            const margin = 46, minDist = Math.min(SIM_W, SIM_H) * 0.24;
+            for (let i = 0; i < N_NEURONS; i++) {
+                let x, y, ok = false, tries = 0;
+                while (!ok && tries++ < 300) {
+                    x = margin + Math.random() * (SIM_W - margin * 2);
+                    y = margin + Math.random() * (SIM_H - margin * 2);
+                    ok = neurons.every(n => (n.x - x) ** 2 + (n.y - y) ** 2 > minDist * minDist);
+                }
+                const born = startTime + i * SEED_STAGGER_MS;
+                const nrn = {
+                    id: i, x, y, born,
+                    nodes: [{ x, y, parent: -1, depth: 0 }],
+                    synapses: [],
+                    refractoryUntil: 0,
+                    flashUntil: 0,
+                    tipsSpawned: false
+                };
+                neurons.push(nrn);
+                gridInsert(i, 0, x, y);
+            }
+        }
+
+        function spawnTips(nrn) {
+            const base = Math.random() * Math.PI * 2;
+            for (let j = 0; j < TIPS_PER_NEURON; j++) {
+                tips.push({
+                    nid: nrn.id,
+                    nodeIdx: 0,
+                    x: nrn.x, y: nrn.y,
+                    dir: base + (j / TIPS_PER_NEURON) * Math.PI * 2 + (Math.random() - 0.5) * 0.5,
+                    life: TIP_LIFE * (0.75 + Math.random() * 0.5)
+                });
+            }
+            nrn.tipsSpawned = true;
+        }
+
+        function fibreWidth(depth) {
+            return Math.max(0.7, 2.1 - depth * 0.012);
+        }
+
+        function stepTip(t) {
+            const nrn = neurons[t.nid];
+
+            // heading: jitter + attraction toward nearest linkable foreign soma
+            t.dir += (Math.random() - 0.5) * 2 * TIP_TURBULENCE;
+            let target = null, targetD = SENSE_R;
+            for (const o of neurons) {
+                if (o.id === t.nid) continue;
+                if ((pairCounts[pairKey(t.nid, o.id)] || 0) >= PAIR_SYNAPSE_CAP) continue;
+                const d = Math.hypot(o.x - t.x, o.y - t.y);
+                if (d < targetD) { targetD = d; target = o; }
+            }
+            if (target) {
+                const want = Math.atan2(target.y - t.y, target.x - t.x);
+                let delta = want - t.dir;
+                while (delta >  Math.PI) delta -= Math.PI * 2;
+                while (delta < -Math.PI) delta += Math.PI * 2;
+                const k = 0.025 + 0.16 * (1 - targetD / SENSE_R);
+                t.dir += delta * k;
+            }
+
+            const nx = t.x + Math.cos(t.dir) * TIP_STEP;
+            const ny = t.y + Math.sin(t.dir) * TIP_STEP;
+            if (nx < 3 || nx > SIM_W - 3 || ny < 3 || ny > SIM_H - 3) return false;
+
+            // draw the new fibre segment onto the persistent trail
+            const parent = nrn.nodes[t.nodeIdx];
+            tctx.strokeStyle = INK;
+            tctx.lineCap = 'round';
+            tctx.lineWidth = fibreWidth(parent.depth);
+            tctx.beginPath();
+            tctx.moveTo(t.x, t.y);
+            tctx.lineTo(nx, ny);
+            tctx.stroke();
+
+            const idx = nrn.nodes.length;
+            nrn.nodes.push({ x: nx, y: ny, parent: t.nodeIdx, depth: parent.depth + 1 });
+            gridInsert(t.nid, idx, nx, ny);
+            t.x = nx; t.y = ny; t.nodeIdx = idx; t.life--;
+
+            // synapse formation
+            if (synapses.length < GLOBAL_SYN_CAP && (frameCount + idx) % 3 === 0) {
+                const hit = findForeignNode(t.nid, nx, ny);
+                if (hit) {
+                    const [onid, oidx] = hit;
+                    const pk = pairKey(t.nid, onid);
+                    if ((pairCounts[pk] || 0) < PAIR_SYNAPSE_CAP) {
+                        pairCounts[pk] = (pairCounts[pk] || 0) + 1;
+                        const syn = { a: t.nid, aNode: idx, b: onid, bNode: oidx };
+                        synapses.push(syn);
+                        neurons[t.nid].synapses.push(syn);
+                        neurons[onid].synapses.push(syn);
+                        // draw the closing segment
+                        const on = neurons[onid].nodes[oidx];
+                        tctx.lineWidth = 1;
+                        tctx.beginPath();
+                        tctx.moveTo(nx, ny);
+                        tctx.lineTo(on.x, on.y);
+                        tctx.stroke();
+                        neurons[t.nid].flashUntil = performance.now() + 420;
+                        neurons[onid].flashUntil = performance.now() + 420;
+                        return false; // growth cone becomes the synapse
+                    }
+                }
+            }
+
+            // branching
+            if (tips.length < MAX_TIPS && Math.random() < BRANCH_P && parent.depth > 8) {
+                tips.push({
+                    nid: t.nid, nodeIdx: idx, x: nx, y: ny,
+                    dir: t.dir + (Math.random() < 0.5 ? 1 : -1) * (0.5 + Math.random() * 0.6),
+                    life: t.life * 0.7
+                });
+            }
+            return t.life > 0;
+        }
+
+        // path of points from soma to a given node
+        function pathToNode(nrn, nodeIdx) {
+            const pts = [];
+            let i = nodeIdx;
+            while (i !== -1) { const n = nrn.nodes[i]; pts.push([n.x, n.y]); i = n.parent; }
+            return pts.reverse();
+        }
+
+        function firePulse(syn, fromId) {
+            if (pulses.length >= MAX_PULSES) return;
+            const A = neurons[fromId];
+            const bId = syn.a === fromId ? syn.b : syn.a;
+            const B = neurons[bId];
+            const aNode = syn.a === fromId ? syn.aNode : syn.bNode;
+            const bNode = syn.a === fromId ? syn.bNode : syn.aNode;
+            const pts = pathToNode(A, aNode).concat(pathToNode(B, bNode).reverse());
+            if (pts.length < 2) return;
+            pulses.push({ pts, i: 0, dest: bId, via: syn });
+        }
+
+        function fire(nid, viaSyn) {
+            const now = performance.now();
+            const nrn = neurons[nid];
+            if (now < nrn.refractoryUntil || nrn.synapses.length === 0) return;
+            nrn.refractoryUntil = now + REFRACTORY_MS;
+            nrn.flashUntil = now + 520;
+            for (const syn of nrn.synapses) {
+                if (syn === viaSyn) continue;
+                firePulse(syn, nid);
+            }
+            // activity stimulates growth: fresh cone from an active soma
+            if (tips.length < MAX_TIPS &&
+                tips.filter(t => t.nid === nid).length < 3) {
+                tips.push({
+                    nid: nid, nodeIdx: 0, x: nrn.x, y: nrn.y,
+                    dir: Math.random() * Math.PI * 2,
+                    life: TIP_LIFE * 0.5
+                });
+            }
+        }
+
+        // 1-bit threshold pass keeps the accumulated trail crisp
+        function thresholdTrail() {
+            const img = tctx.getImageData(0, 0, SIM_W, SIM_H);
+            const d = img.data;
+            for (let i = 3; i < d.length; i += 4) {
+                if (d[i] >= 96) {
+                    d[i] = 255; d[i - 3] = 17; d[i - 2] = 17; d[i - 1] = 17;
+                } else {
+                    d[i] = 0;
+                }
+            }
+            tctx.putImageData(img, 0, 0);
+        }
+
+        function drawSoma(c, nrn, now) {
+            const age = now - nrn.born;
+            if (age < 0) return;
+            const r = SOMA_R * Math.min(1, age / 600);
+            c.fillStyle = INK;
+            c.beginPath();
+            c.arc(nrn.x, nrn.y, r, 0, Math.PI * 2);
+            c.fill();
+            // firing / synapse flash: expanding 1-bit ring
+            if (now < nrn.flashUntil) {
+                const p = 1 - (nrn.flashUntil - now) / 520;
+                c.strokeStyle = SIGNAL;
+                c.lineWidth = 1;
+                c.beginPath();
+                c.arc(nrn.x, nrn.y, SOMA_R + 1.5 + p * 7, 0, Math.PI * 2);
+                c.stroke();
+            }
+        }
+
+        function frame(now) {
+            frameCount++;
+
+            if (phase === 'live') {
+                // seed: spawn growth cones once a soma has settled
+                for (const nrn of neurons) {
+                    if (!nrn.tipsSpawned && now > nrn.born + 550) spawnTips(nrn);
+                }
+                // grow
+                tips = tips.filter(stepTip);
+                // keep the trail 1-bit while it is still being drawn
+                if (tips.length > 0 && frameCount % 8 === 0) thresholdTrail();
+
+                // transmit: ambient firing once the network exists
+                if (synapses.length >= 3 && now - lastAmbient > AMBIENT_FIRE_MS) {
+                    lastAmbient = now;
+                    const candidates = neurons.filter(n => n.synapses.length > 0);
+                    if (candidates.length) {
+                        fire(candidates[(Math.random() * candidates.length) | 0].id, null);
+                    }
+                }
+                // advance pulses
+                for (let p = pulses.length - 1; p >= 0; p--) {
+                    const pl = pulses[p];
+                    pl.i += PULSE_SPEED;
+                    if (pl.i >= pl.pts.length - 1) {
+                        const via = pl.via, dest = pl.dest;
+                        pulses.splice(p, 1);
+                        fire(dest, via); // cascade, never straight back
+                    }
+                }
+                if (now - startTime > CYCLE_MS) phase = 'dissolve';
+            } else if (phase === 'dissolve') {
+                pulses = [];
+                tips = [];
+                for (let i = 0; i < 300; i++) {
+                    const s = 2 + Math.random() * 9;
+                    tctx.clearRect(Math.random() * SIM_W, Math.random() * SIM_H, s, s);
+                }
+                if (++dissolveFrame > DISSOLVE_FRAMES) { reset(); }
+            }
+
+            // ---- composite ----
+            ctx.clearRect(0, 0, SIM_W, SIM_H);
+            ctx.drawImage(trail, 0, 0);
+
+            if (phase === 'live') {
+                for (const nrn of neurons) drawSoma(ctx, nrn, now);
+                // growth cones
+                ctx.fillStyle = INK;
+                for (const t of tips) {
+                    ctx.beginPath();
+                    ctx.arc(t.x, t.y, 1.1, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                // pulses: a travelling bead with a short tail, in signal blue
+                ctx.fillStyle = SIGNAL;
+                for (const pl of pulses) {
+                    const i0 = Math.min(pl.pts.length - 1, pl.i | 0);
+                    for (let k = 0; k < 4; k++) {
+                        const idx = Math.max(0, i0 - k * 2);
+                        const pt = pl.pts[idx];
+                        ctx.beginPath();
+                        ctx.arc(pt[0], pt[1], 2.1 - k * 0.45, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        // ---- reduced motion: render the finished network as a still ------
+        function renderStatic() {
+            reset();
+            const now = performance.now();
+            for (const nrn of neurons) { nrn.born = now - 1000; spawnTips(nrn); }
+            for (let s = 0; s < 900 && tips.length; s++) tips = tips.filter(stepTip);
+            thresholdTrail();
+            ctx.clearRect(0, 0, SIM_W, SIM_H);
+            ctx.drawImage(trail, 0, 0);
+            for (const nrn of neurons) drawSoma(ctx, nrn, now);
+        }
+
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                prefersReducedMotion ? renderStatic() : reset();
+            }, 250);
+        });
+
+        if (prefersReducedMotion) {
+            renderStatic();
+        } else {
+            reset();
+            requestAnimationFrame(frame);
+        }
+    })();
+    </script>
+
+    <script>
+    (function () {
+        'use strict';
+        var svg = document.getElementById('flows-svg');
+        if (!svg) return;
+        var SVGNS = 'http://www.w3.org/2000/svg';
+        var VERM = '#E63312', INK = '#111111';
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var paths = {
+            stake: document.getElementById('flow-stake'),
+            contribute: document.getElementById('flow-contribute'),
+            burn: document.getElementById('flow-burn'),
+            answer: document.getElementById('flow-answer')
+        };
+        var lens = {};
+        Object.keys(paths).forEach(function (k) { lens[k] = paths[k].getTotalLength(); });
+
+        var beadLayer = document.getElementById('bead-layer');
+        var fxLayer = document.getElementById('fx-layer');
+        var balText = document.getElementById('pool-balance');
+        var poolCircle = document.getElementById('pool-circle');
+        var statusEl = document.getElementById('flow-status');
+
+        var balance = 3;
+        function setBalance(v) { balance = v; balText.textContent = v; }
+        function setStatus(delta, msg) {
+            statusEl.innerHTML = (delta ? '<span style="color:' + VERM + '">' + delta + '</span> · ' : '') + msg;
+        }
+
+        // ---- static fallback ------------------------------------------------
+        if (reduced) {
+            ['stake', 'contribute', 'burn'].forEach(function (k) {
+                var p = paths[k].getPointAtLength(lens[k] * 0.5);
+                var c = document.createElementNS(SVGNS, 'circle');
+                c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
+                c.setAttribute('r', 3.5); c.setAttribute('fill', VERM);
+                beadLayer.appendChild(c);
+            });
+            setStatus('', 'Stake or contribute to earn Consumption; burn it to query.');
+            return;
+        }
+
+        // ---- animation engine ----------------------------------------------
+        var beads = [], fx = [];
+
+        function spawnBead(key, opts) {
+            opts = opts || {};
+            var c = document.createElementNS(SVGNS, 'circle');
+            c.setAttribute('r', opts.r || 3.5);
+            c.setAttribute('fill', VERM);
+            beadLayer.appendChild(c);
+            beads.push({
+                path: paths[key], len: lens[key], t: 0,
+                speed: opts.speed || 2.6, el: c, onArrive: opts.onArrive
+            });
+        }
+        function ringFx(x, y, color, r0, r1) {
+            var c = document.createElementNS(SVGNS, 'circle');
+            c.setAttribute('cx', x); c.setAttribute('cy', y);
+            c.setAttribute('fill', 'none');
+            c.setAttribute('stroke', color);
+            c.setAttribute('stroke-width', 1);
+            c.setAttribute('vector-effect', 'non-scaling-stroke');
+            fxLayer.appendChild(c);
+            fx.push({ el: c, t: 0, dur: 32, r0: r0, r1: r1 });
+        }
+        function poolPulse() {
+            poolCircle.setAttribute('stroke-width', 2.25);
+            setTimeout(function () { poolCircle.setAttribute('stroke-width', 1.25); }, 180);
+        }
+
+        function frame() {
+            for (var i = beads.length - 1; i >= 0; i--) {
+                var b = beads[i];
+                b.t += b.speed;
+                if (b.t >= b.len) {
+                    beadLayer.removeChild(b.el);
+                    beads.splice(i, 1);
+                    if (b.onArrive) b.onArrive();
+                } else {
+                    var p = b.path.getPointAtLength(b.t);
+                    b.el.setAttribute('cx', p.x);
+                    b.el.setAttribute('cy', p.y);
+                }
+            }
+            for (var j = fx.length - 1; j >= 0; j--) {
+                var f = fx[j];
+                f.t++;
+                var k = f.t / f.dur;
+                if (k >= 1) { fxLayer.removeChild(f.el); fx.splice(j, 1); }
+                else {
+                    f.el.setAttribute('r', f.r0 + (f.r1 - f.r0) * k);
+                    f.el.setAttribute('stroke-opacity', 1 - k);
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+
+        // ---- flows ----------------------------------------------------------
+        function earn(msg) {
+            return function () {
+                setBalance(balance + 1);
+                poolPulse();
+                setStatus('+1 Consumption', msg);
+            };
+        }
+        function doBurn(msg) {
+            if (balance <= 0) return false;
+            setBalance(balance - 1);
+            poolPulse();
+            spawnBead('burn', { speed: 3.0, onArrive: function () {
+                var end = paths.burn.getPointAtLength(lens.burn);
+                ringFx(end.x, end.y, VERM, 10, 30);
+                setStatus('\u22121 Consumption', msg || 'burned \u2014 answer delivered');
+                spawnBead('answer', { r: 2.5, speed: 2.2 });
+            }});
+            return true;
+        }
+
+        // ambient: fixed-rate staking emission, sporadic contributions,
+        // demand-scaled burns
+        setInterval(function () {
+            spawnBead('stake', { speed: 2.2, onArrive: earn('staking emission') });
+        }, 2400);
+        (function contributeLoop() {
+            setTimeout(function () {
+                spawnBead('contribute', { speed: 2.4, onArrive: earn('contribution accepted') });
+                contributeLoop();
+            }, 2800 + Math.random() * 3200);
+        })();
+        (function burnLoop() {
+            var delay = Math.max(1000, Math.min(4200, 4200 / Math.max(1, balance * 0.6)));
+            setTimeout(function () { doBurn(); burnLoop(); }, delay);
+        })();
+
+        // ---- interaction ----------------------------------------------------
+        function onActivate(el, fn) {
+            el.addEventListener('click', fn);
+            el.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
+            });
+            var p = document.getElementById(el.getAttribute('data-path'));
+            el.addEventListener('mouseenter', function () { p.classList.add('hot'); });
+            el.addEventListener('mouseleave', function () { p.classList.remove('hot'); });
+        }
+        onActivate(document.getElementById('node-own'), function () {
+            ringFx(150, 110, INK, 34, 48);
+            [0, 160, 320].forEach(function (d) {
+                setTimeout(function () {
+                    spawnBead('stake', { speed: 2.8, onArrive: earn('staking emission') });
+                }, d);
+            });
+        });
+        onActivate(document.getElementById('node-con'), function () {
+            ringFx(150, 310, INK, 18, 34);
+            [0, 160, 320].forEach(function (d) {
+                setTimeout(function () {
+                    spawnBead('contribute', { speed: 2.8, onArrive: earn('contribution accepted') });
+                }, d);
+            });
+        });
+        onActivate(document.getElementById('node-qry'), function () {
+            if (!doBurn('burned \u2014 answer delivered')) {
+                ringFx(768, 208, INK, 12, 26);
+                setStatus('', 'Balance empty \u2014 contribute or stake to earn Consumption first.');
+            }
+        });
+    })();
+    </script>
+</body></html>
