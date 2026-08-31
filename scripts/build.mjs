@@ -14,6 +14,8 @@ await writeFile(join(dist, '.openai', 'hosting.json'), JSON.stringify({
   project_id: 'appgprj_6a8e08e1bf108191b1f265dc79002bc9'
 }, null, 2));
 
+await writeFile(join(dist, 'index.html'), html);
+
 await writeFile(join(dist, 'server', 'index.js'), `const html = ${JSON.stringify(html)};
 
 export default {
