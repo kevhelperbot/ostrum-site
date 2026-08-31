@@ -58,9 +58,57 @@
             display: block;
             image-rendering: pixelated;
         }
+
+        .hero-title {
+            width: 100%;
+            max-width: none;
+            font-size: clamp(2.1rem, 8.5vw, 5.5rem);
+            line-height: 1.05;
+            letter-spacing: 0;
+        }
+
+        .hero-title-line {
+            display: block;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-brand-vermillion selection:text-brand-cream">
+
+    <script>
+    (function () {
+        'use strict';
+
+        function fitHeroTitle() {
+            var title = document.querySelector('[data-fit-title]');
+            if (!title) return;
+
+            var lines = Array.prototype.slice.call(title.querySelectorAll('.hero-title-line'));
+            var available = title.clientWidth;
+            if (!available || !lines.length) return;
+
+            var maxSize = window.innerWidth >= 1024 ? 88 : 80;
+            var minSize = 30;
+            var size = maxSize;
+
+            title.style.fontSize = size + 'px';
+            while (size > minSize && lines.some(function (line) { return line.scrollWidth > available + 0.5; })) {
+                size -= 1;
+                title.style.fontSize = size + 'px';
+            }
+        }
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(fitHeroTitle, 100);
+        });
+        window.addEventListener('load', fitHeroTitle);
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(fitHeroTitle);
+        }
+    })();
+    </script>
 
     
     <nav class="fixed w-full top-0 z-50 px-8 py-6 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
@@ -73,10 +121,10 @@
         
         
         <div class="flex flex-col justify-center px-8 lg:px-24 py-32 lg:py-0 relative z-10 lg:border-r border-brand-border bg-brand-cream">
-            <h1 class="font-serif text-[3.5rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.05] tracking-tight max-w-2xl mb-12 text-brand-dark">
-                All data is a signal.<br>
-                Signals find each other.<br>
-                The network learns.
+            <h1 class="hero-title font-serif mb-12 text-brand-dark" data-fit-title>
+                <span class="hero-title-line">All data is a signal.</span>
+                <span class="hero-title-line">Signals find each other.</span>
+                <span class="hero-title-line">The network learns.</span>
             </h1>
 
             <a href="https://app.ostrum.ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-brand-dark text-brand-cream px-8 py-4 w-fit font-sans text-xs font-semibold tracking-[0.15em] uppercase hover:bg-brand-vermillion transition-colors">
@@ -85,7 +133,7 @@
 
             <div class="absolute bottom-8 lg:bottom-12 left-8 lg:left-24 space-y-1 font-sans text-[9px] uppercase tracking-[0.25em] text-brand-muted font-medium">
                 <p>Project Ostrum /</p>
-                <p>Live Network — V.01</p>
+                <p>Live Network / V.01</p>
             </div>
         </div>
 
@@ -111,13 +159,13 @@
                 <div class="grid md:grid-cols-12 gap-8 md:gap-16">
                     <div class="md:col-span-8 space-y-8 font-serif text-xl md:text-2xl leading-relaxed text-brand-dark/80">
                         <p>
-                            Prediction markets trade derivatives of what people know. Ostrum lets information itself be priced and transacted — starting where the asymmetry is steepest and closest to home: <span class="text-brand-dark font-medium">market-making, exchange listing, and fundraising deals</span>.
+                            Prediction markets trade derivatives of what people know. Ostrum prices the information itself, starting where asymmetry is steepest and closest to home: <span class="text-brand-dark font-medium">market-making, exchange listing, and fundraising deals</span>.
                         </p>
                         <p>
-                            Information is an asset, and it deserves a spot market. While prediction markets have financialized information only to the degree of a directional yes/no answer, Project Ostrum lets participants transact in the underlying information directly.
+                            Information is an asset. It should have a spot market. Prediction markets turn knowledge into directional yes/no exposure; Ostrum lets participants transact in the underlying information directly.
                         </p>
                         <p>
-                            Contribute what you know, and it purchases access to what others know, at an exchange rate set by the value and scarcity of the information itself.
+                            Contribute what you know to access what others know, with exchange rates set by the value and scarcity of each data point.
                         </p>
                     </div>
                     <div class="md:col-span-4 border-t border-brand-border pt-6 md:border-t-0 md:pt-0">
@@ -125,7 +173,7 @@
                         <ul class="space-y-4 font-sans text-sm text-brand-dark">
                             <li class="flex items-start gap-3">
                                 <span class="text-brand-muted mt-0.5">01</span>
-                                <span>Crypto Deal-Terms Intelligence</span>
+                                <span>Crypto Deal Terms Intelligence</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="text-brand-muted mt-0.5">02</span>
@@ -158,7 +206,7 @@
                             How it Works
                         </h2>
                         <p class="font-sans text-base leading-relaxed text-brand-muted">
-                            Ostrum operates on a strict <span class="text-brand-dark">contribute-to-unlock model</span>. Value is exchanged directly for value, empowering builders against entrenched, lopsided power dynamics.
+                            Ostrum runs on a strict <span class="text-brand-dark">contribute-to-unlock model</span>. Participants add useful information and earn access to other information of comparable value.
                         </p>
                     </div>
                     
@@ -170,7 +218,7 @@
                                 <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 01</div>
                                 <h3 class="font-serif text-2xl mb-4 text-brand-dark">Contribute</h3>
                                 <p class="font-sans text-sm leading-relaxed text-brand-muted">
-                                    Users submit valuable information—starting with the terms of deals they have signed or been quoted.
+                                    Users submit information that is hard to find, costly to produce, or valuable because only a small group can observe it.
                                 </p>
                             </div>
                             
@@ -180,7 +228,7 @@
                                 <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 02</div>
                                 <h3 class="font-serif text-2xl mb-4 text-brand-dark">Valuation</h3>
                                 <p class="font-sans text-sm leading-relaxed text-brand-muted">
-                                    Contributions are valued according to the stakes involved, the dispersion of terms in that segment, and the scarcity of the data point.
+                                    Contributions are valued according to their importance, the dispersion of knowledge in that segment, and the scarcity of the data point.
                                 </p>
                             </div>
                             
@@ -190,7 +238,7 @@
                                 <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-3 border-b border-brand-border pb-3">Step 03</div>
                                 <h3 class="font-serif text-2xl mb-4 text-brand-dark">Unlock &amp; Query</h3>
                                 <p class="font-sans text-sm leading-relaxed text-brand-muted">
-                                    Contributors query the pooled dataset through a natural-language interface (e.g., asking what a typical market-making retainer includes at their project's size).
+                                    Contributors query the pooled dataset through a natural-language interface, asking what others have seen in similar situations without revealing any single source.
                                 </p>
                             </div>
                             
@@ -215,19 +263,19 @@
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <div class="flex items-center justify-center gap-4 mb-8">
                         <div class="w-8 h-[1px] bg-brand-dark/30"></div>
-                        <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">Token Model</div>
+                        <div class="font-sans text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">Access Model</div>
                         <div class="w-8 h-[1px] bg-brand-dark/30"></div>
                     </div>
                     <h2 class="font-serif text-4xl md:text-5xl leading-[1.1] tracking-tight mb-8 text-brand-dark">
                         Information Market Flows
                     </h2>
                     <p class="font-sans text-lg text-brand-muted leading-relaxed">
-                        Two tokens separate owning the market from using it. Ownership is fixed and patient. Consumption is earned, spent, and destroyed. Watch value move — or move it yourself.
+                        Two balances separate owning the network from using it. Ownership is fixed and patient. Consumption is earned, spent, and retired.
                     </p>
                 </div>
 
                 <div class="border border-brand-border overflow-x-auto bg-brand-cream">
-                    <svg id="flows-svg" viewBox="0 0 900 430" class="block w-full" style="min-width: 680px;" role="img" aria-label="Diagram of Ostrum token flows: staking Ownership and contributing information both earn Consumption, which is burned to query">
+                    <svg id="flows-svg" viewBox="0 0 900 430" class="block w-full" style="min-width: 680px;" role="img" aria-label="Diagram of Ostrum access flows: allocating Ownership and contributing information both earn Consumption, which is spent to query">
                         <style>
                             .fl-name { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; fill: #111111; }
                             .fl-sub  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; fill: rgba(17,17,17,0.55); }
@@ -241,24 +289,24 @@
                         </style>
 
                         <!-- fibres -->
-                        <path id="flow-stake"      class="flow-path" vector-effect="non-scaling-stroke" d="M 178,122 Q 300,142 419,194"/>
+                        <path id="flow-allocate"      class="flow-path" vector-effect="non-scaling-stroke" d="M 178,122 Q 300,142 419,194"/>
                         <path id="flow-contribute" class="flow-path" vector-effect="non-scaling-stroke" d="M 174,298 Q 300,278 419,226"/>
-                        <path id="flow-burn"       class="flow-path" vector-effect="non-scaling-stroke" d="M 491,210 Q 630,196 756,208"/>
+                        <path id="flow-spend"       class="flow-path" vector-effect="non-scaling-stroke" d="M 491,210 Q 630,196 756,208"/>
                         <path id="flow-answer"     class="flow-path" vector-effect="non-scaling-stroke" d="M 784,208 Q 830,204 878,198" style="stroke-opacity:0.35"/>
 
                         <!-- flow verbs -->
-                        <text class="fl-verb" x="290" y="148" text-anchor="middle">STAKE · EMITS OVER TIME</text>
+                        <text class="fl-verb" x="290" y="148" text-anchor="middle">ALLOCATE · EARNS OVER TIME</text>
                         <text class="fl-verb" x="290" y="304" text-anchor="middle">CONTRIBUTE · EARN</text>
-                        <text class="fl-verb" x="622" y="184" text-anchor="middle">BURN · LEARN</text>
+                        <text class="fl-verb" x="622" y="184" text-anchor="middle">SPEND · LEARN</text>
                         <text class="fl-sub"  x="854" y="222" text-anchor="middle">answers</text>
 
                         <!-- Ownership: solid node inside a fixed-supply ring -->
-                        <g id="node-own" class="fl-node" role="button" tabindex="0" aria-label="Stake Ownership" data-path="flow-stake">
+                        <g id="node-own" class="fl-node" role="button" tabindex="0" aria-label="Allocate Ownership" data-path="flow-allocate">
                             <circle class="fl-ring" vector-effect="non-scaling-stroke" cx="150" cy="110" r="34" stroke-width="1" stroke-opacity="0.3"/>
                             <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="150" cy="110" r="24" fill="#F4F3F0" stroke-width="1.25"/>
                             <circle cx="150" cy="110" r="5" fill="#111111"/>
                             <text class="fl-name" x="150" y="52" text-anchor="middle">OWNERSHIP</text>
-                            <text class="fl-sub"  x="150" y="170" text-anchor="middle">Fixed supply · staked</text>
+                            <text class="fl-sub"  x="150" y="170" text-anchor="middle">Fixed supply · allocated</text>
                         </g>
 
                         <!-- Contribution -->
@@ -266,7 +314,7 @@
                             <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="150" cy="310" r="18" fill="#F4F3F0" stroke-width="1.25"/>
                             <circle cx="150" cy="310" r="4" fill="#111111"/>
                             <text class="fl-name" x="150" y="360" text-anchor="middle">CONTRIBUTION</text>
-                            <text class="fl-sub"  x="150" y="380" text-anchor="middle">Deal terms in</text>
+                            <text class="fl-sub"  x="150" y="380" text-anchor="middle">Valuable data in</text>
                         </g>
 
                         <!-- Consumption pool: outlined vessel with live balance -->
@@ -277,12 +325,12 @@
                             <text class="fl-sub"  x="455" y="282" text-anchor="middle">Balance</text>
                         </g>
 
-                        <!-- Query / burn point -->
-                        <g id="node-qry" class="fl-node" role="button" tabindex="0" aria-label="Burn Consumption to query" data-path="flow-burn">
+                        <!-- Query / spend point -->
+                        <g id="node-qry" class="fl-node" role="button" tabindex="0" aria-label="Spend Consumption to query" data-path="flow-spend">
                             <circle class="fl-ring fl-anchor" vector-effect="non-scaling-stroke" cx="768" cy="208" r="11" fill="#F4F3F0" stroke-width="1.25"/>
                             <circle cx="768" cy="208" r="3.5" fill="#111111"/>
                             <text class="fl-name" x="768" y="256" text-anchor="middle">QUERY</text>
-                            <text class="fl-sub"  x="768" y="276" text-anchor="middle">Burn to learn</text>
+                            <text class="fl-sub"  x="768" y="276" text-anchor="middle">Spend to learn</text>
                         </g>
 
                         <g id="bead-layer"></g>
@@ -291,7 +339,7 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mt-4 mb-16">
-                    <div id="flow-status" class="font-mono text-xs text-brand-muted" style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;">Value in motion — every flow above is live.</div>
+                    <div id="flow-status" class="font-mono text-xs text-brand-muted" style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;">Value in motion. Every flow above is live.</div>
                     <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted">Click any node to move value</div>
                 </div>
 
@@ -300,14 +348,14 @@
                         <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Governance · Fixed supply</div>
                         <h3 class="font-serif text-2xl mb-4 text-brand-dark">Ownership</h3>
                         <p class="font-sans text-sm text-brand-muted leading-relaxed">
-                            The asset that owns the market. Supply is fixed at genesis. Staked, it emits a continuous stream of Consumption — holding converts to access over time.
+                            The asset that owns the market. Supply is fixed at launch. When allocated, it earns a continuous stream of Consumption.
                         </p>
                     </div>
                     <div class="bg-brand-cream p-10 border border-brand-border group hover:border-brand-dark transition-colors duration-300">
-                        <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Utility · Earn &amp; burn</div>
+                        <div class="font-sans text-[10px] uppercase tracking-[0.2em] text-brand-muted mb-4">Utility · Earn &amp; spend</div>
                         <h3 class="font-serif text-2xl mb-4 text-brand-dark">Consumption</h3>
                         <p class="font-sans text-sm text-brand-muted leading-relaxed">
-                            The working token. Earned by contributing information or by staking Ownership; burned to ask questions. Every query permanently retires the Consumption it costs — burn to learn.
+                            The working balance. Earned by contributing information or allocating Ownership; spent to ask questions. Every query permanently retires the Consumption it costs.
                         </p>
                     </div>
                 </div>
@@ -326,7 +374,7 @@
                         Privacy by Architecture
                     </h2>
                     <p class="font-sans text-lg text-brand-muted leading-relaxed">
-                        An information market only functions if contributing doesn't mean surrendering the information's source. Ostrum is engineered so that individual exposure is structurally impossible.
+                        An information market only works if contributors can share without exposing the source. Ostrum is built around aggregation, verification, and narrow disclosure.
                     </p>
                 </div>
 
@@ -338,7 +386,7 @@
                         </div>
                         <h3 class="font-serif text-2xl mb-4 text-brand-dark">Coarse Bucketing</h3>
                         <p class="font-sans text-sm text-brand-muted leading-relaxed">
-                            Exact deal values are converted to coarse buckets and ratios at submission, and raw figures are destroyed. No database of precise terms exists.
+                            Sensitive inputs are converted to coarse buckets and ratios at submission, and raw figures are destroyed. No database of precise source material exists.
                         </p>
                     </div>
                     
@@ -349,7 +397,7 @@
                         </div>
                         <h3 class="font-serif text-2xl mb-4 text-brand-dark">Aggregation Only</h3>
                         <p class="font-sans text-sm text-brand-muted leading-relaxed">
-                            All access runs through an aggregation-only statistics layer with minimum-cohort thresholds and suppression rules. No query can return an individual deal.
+                            All access runs through an aggregation-only statistics layer with minimum-cohort thresholds and suppression rules. No query can return an individual submission.
                         </p>
                     </div>
                     
@@ -381,7 +429,7 @@
                 </h2>
                 
                 <p class="font-serif text-xl md:text-2xl text-brand-cream/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Project Ostrum is available today. Projects with market-making, exchange-listing, or fundraising deal experience are invited to join as founding contributors to the first market.
+                    Project Ostrum is available today. People and organizations with valuable knowledge are invited to join as founding contributors to the first market.
                 </p>
                 
             <a href="https://app.ostrum.ai/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-brand-cream text-brand-dark px-10 py-5 w-fit font-sans text-sm font-semibold tracking-[0.15em] uppercase hover:bg-brand-vermillion hover:text-brand-cream transition-colors duration-300">
@@ -415,7 +463,6 @@
                 <div>The Spot Market for Information</div>
             </div>
             <div class="flex gap-8">
-                <span class="text-brand-cream/30">Telegram:</span>
                 <a href="https://x.com/projectostrum" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">X: @projectostrum</a>
             </div>
         </div>
@@ -433,7 +480,7 @@
         // Rendered 1-bit (near-black on cream) into a low-resolution buffer
         // upscaled with image-rendering: pixelated, matching the sample's
         // crisp / slightly ragged reaction-diffusion look. A signal pulse is
-        // expressed as a travelling bead of *thickness* along a fibre — the
+        // expressed as a travelling bead of *thickness* along a fibre: the
         // only way to "glow" in a two-colour system.
         // ------------------------------------------------------------------
 
@@ -834,9 +881,9 @@
         var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         var paths = {
-            stake: document.getElementById('flow-stake'),
+            allocate: document.getElementById('flow-allocate'),
             contribute: document.getElementById('flow-contribute'),
-            burn: document.getElementById('flow-burn'),
+            spend: document.getElementById('flow-spend'),
             answer: document.getElementById('flow-answer')
         };
         var lens = {};
@@ -856,14 +903,14 @@
 
         // ---- static fallback ------------------------------------------------
         if (reduced) {
-            ['stake', 'contribute', 'burn'].forEach(function (k) {
+            ['allocate', 'contribute', 'spend'].forEach(function (k) {
                 var p = paths[k].getPointAtLength(lens[k] * 0.5);
                 var c = document.createElementNS(SVGNS, 'circle');
                 c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
                 c.setAttribute('r', 3.5); c.setAttribute('fill', VERM);
                 beadLayer.appendChild(c);
             });
-            setStatus('', 'Stake or contribute to earn Consumption; burn it to query.');
+            setStatus('', 'Allocate or contribute to earn Consumption; spend it to query.');
             return;
         }
 
@@ -932,23 +979,23 @@
                 setStatus('+1 Consumption', msg);
             };
         }
-        function doBurn(msg) {
+        function doSpend(msg) {
             if (balance <= 0) return false;
             setBalance(balance - 1);
             poolPulse();
-            spawnBead('burn', { speed: 3.0, onArrive: function () {
-                var end = paths.burn.getPointAtLength(lens.burn);
+            spawnBead('spend', { speed: 3.0, onArrive: function () {
+                var end = paths.spend.getPointAtLength(lens.spend);
                 ringFx(end.x, end.y, VERM, 10, 30);
-                setStatus('\u22121 Consumption', msg || 'burned \u2014 answer delivered');
+                setStatus('\u22121 Consumption', msg || 'spent. answer delivered');
                 spawnBead('answer', { r: 2.5, speed: 2.2 });
             }});
             return true;
         }
 
-        // ambient: fixed-rate staking emission, sporadic contributions,
-        // demand-scaled burns
+        // ambient: fixed-rate ownership allocation, sporadic contributions,
+        // demand-scaled spending
         setInterval(function () {
-            spawnBead('stake', { speed: 2.2, onArrive: earn('staking emission') });
+            spawnBead('allocate', { speed: 2.2, onArrive: earn('ownership allocation') });
         }, 2400);
         (function contributeLoop() {
             setTimeout(function () {
@@ -956,9 +1003,9 @@
                 contributeLoop();
             }, 2800 + Math.random() * 3200);
         })();
-        (function burnLoop() {
+        (function spendLoop() {
             var delay = Math.max(1000, Math.min(4200, 4200 / Math.max(1, balance * 0.6)));
-            setTimeout(function () { doBurn(); burnLoop(); }, delay);
+            setTimeout(function () { doSpend(); spendLoop(); }, delay);
         })();
 
         // ---- interaction ----------------------------------------------------
@@ -975,7 +1022,7 @@
             ringFx(150, 110, INK, 34, 48);
             [0, 160, 320].forEach(function (d) {
                 setTimeout(function () {
-                    spawnBead('stake', { speed: 2.8, onArrive: earn('staking emission') });
+                    spawnBead('allocate', { speed: 2.8, onArrive: earn('ownership allocation') });
                 }, d);
             });
         });
@@ -988,9 +1035,9 @@
             });
         });
         onActivate(document.getElementById('node-qry'), function () {
-            if (!doBurn('burned \u2014 answer delivered')) {
+            if (!doSpend('spent. answer delivered')) {
                 ringFx(768, 208, INK, 12, 26);
-                setStatus('', 'Balance empty \u2014 contribute or stake to earn Consumption first.');
+                setStatus('', 'Balance empty. Contribute or allocate Ownership to earn Consumption first.');
             }
         });
     })();
